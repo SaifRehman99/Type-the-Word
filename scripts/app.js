@@ -2,7 +2,7 @@
 window.addEventListener('load', start);
 
 // global things here
-let time = 10,
+let time = 6,
     score = 0
 status;
 
@@ -12,7 +12,8 @@ const inputText = document.querySelector('#typeText');
 const selectLevelTime = document.querySelector('#selectLevel');
 const RemainingTime = document.querySelector('#timeLeft');
 const RemainingScore = document.querySelector('#scoreValue');
-const messageDiv = document.querySelector('#resultHere')
+const messageDiv = document.querySelector('#resultHere');
+
 // getting the random words here
 const getApi = async (level = 1) => {
 
@@ -24,6 +25,20 @@ const getApi = async (level = 1) => {
     return words.puzzle;
 }
 
+// adding event listener on the select list
+selectLevelTime.addEventListener('change', (e) => {
+
+    if (e.target.value === '5') {
+        getApi(1);
+    }
+    else if (e.target.value === '3') {
+        getApi(2);
+    }
+    else {
+        getApi(3);
+    }
+
+})
 async function start() {
 
     // waiting for the data here
@@ -40,16 +55,41 @@ async function start() {
 
             // setting the text
             messageDiv.innerHTML = 'Correct..!';
+
+            // removing the correct msg here
+            setTimeout(() => {
+                messageDiv.remove('.alert')
+            }, 1200);
+
+
+            // managing the status here
+            status = true;
+
+            // clearing the input here
+            e.target.value = '';
+
+            // incrementing the score here
+            score++;
+
+            // adding the score in the UI
+            RemainingScore.innerHTML = score;
+
+            setInterval(checkStatus, 5);
+
+            start();
+            time += 4;
+
         }
 
     });
 
 
     // setting for the time here
-    setInterval(timeRemain, 1100);
+    setInterval(timeRemain, 1000);
 
     // setting for the result message
-    setInterval(checkStatus, 50);
+    setInterval(checkStatus, 5);
+
 
 }
 
@@ -65,23 +105,6 @@ let timeRemain = () => {
     // displaying the time here
     RemainingTime.innerHTML = time;
 }
-
-
-
-// adding event listener on the select list
-selectLevelTime.addEventListener('change', (e) => {
-
-    if (e.target.value === '5') {
-        getApi(1);
-    }
-    else if (e.target.value === '3') {
-        getApi(2);
-    }
-    else {
-        getApi(3);
-    }
-
-})
 
 // checking fot the result
 let checkStatus = () => {
