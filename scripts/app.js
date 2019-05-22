@@ -2,7 +2,7 @@
 window.addEventListener('load', start);
 
 // global things here
-let time = 6,
+let time = 16,
     score = 0
 status;
 
@@ -15,7 +15,7 @@ const RemainingScore = document.querySelector('#scoreValue');
 const messageDiv = document.querySelector('#resultHere');
 
 // getting the random words here
-const getApi = async (level = 1) => {
+const getApi = async (level) => {
 
     // fetching the data here 
     let data = await fetch(`http://puzzle.mead.io/puzzle?wordCount=${level}`);
@@ -29,20 +29,24 @@ const getApi = async (level = 1) => {
 selectLevelTime.addEventListener('change', (e) => {
 
     if (e.target.value === '5') {
-        getApi(1);
+        start(1)
+
+
     }
     else if (e.target.value === '3') {
-        getApi(2);
+        start(2)
     }
-    else {
-        getApi(3);
+    else if (e.target.value === '2') {
+        start(3)
+
     }
 
 })
-async function start() {
+
+async function start(val) {
 
     // waiting for the data here
-    let word = await getApi();
+    let word = await getApi(val);
 
     textDisplay.innerHTML = word;
 
@@ -63,7 +67,7 @@ async function start() {
 
 
             // managing the status here
-            status = true;
+            // status = true;
 
             // clearing the input here
             e.target.value = '';
@@ -74,24 +78,25 @@ async function start() {
             // adding the score in the UI
             RemainingScore.innerHTML = score;
 
-            setInterval(checkStatus, 5);
-
             start();
-            time += 4;
+            time += 20;
 
         }
 
     });
+    time += 20;
+
 
 
     // setting for the time here
     setInterval(timeRemain, 1000);
 
-    // setting for the result message
-    setInterval(checkStatus, 5);
+    // checking for the status and time
+    setInterval(checkStatus, 5)
 
 
 }
+
 
 // time cal function here
 let timeRemain = () => {
@@ -101,21 +106,25 @@ let timeRemain = () => {
     }
     else if (time === 0) {
         status = false;
+        score = -1;
     }
     // displaying the time here
     RemainingTime.innerHTML = time;
+
+
+
 }
 
 // checking fot the result
 let checkStatus = () => {
 
     if (!status && time === 0) {
+
         // // adding class here
         messageDiv.className = 'alert alert-info text-center';
 
         // setting the text
         messageDiv.innerHTML = 'Game Over...';
     }
-
 
 }
