@@ -75,24 +75,26 @@ async function start(val) {
             // incrementing the score here
             score++;
 
+            start();
+            time += 20;
+
             // adding the score in the UI
             RemainingScore.innerHTML = score;
 
-            start();
-            time += 20;
 
         }
 
     });
-    time += 20;
+    time += 22;
 
 
 
-    // setting for the time here
-    setInterval(timeRemain, 1000);
 
     // checking for the status and time
     setInterval(checkStatus, 5)
+
+    // setting for the time here
+    setInterval(timeRemain, 2000);
 
 
 }
