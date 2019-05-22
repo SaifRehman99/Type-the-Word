@@ -2,7 +2,7 @@
 window.addEventListener('load', start);
 
 // global things here
-let time = 6,
+let time = 10,
     score = 0
 status;
 
@@ -21,15 +21,29 @@ const getApi = async (level = 1) => {
     // getting the words array here
     let words = await data.json();
     // getting the words here
-    let puzzle = words.puzzle;
-
-    textDisplay.innerHTML = puzzle;
+    return words.puzzle;
 }
 
 async function start() {
 
     // waiting for the data here
-    await getApi();
+    let word = await getApi();
+
+    textDisplay.innerHTML = word;
+
+    // adding the input event listener
+    inputText.addEventListener('input', (e) => {
+
+        if (e.target.value.toLowerCase() === word.toLowerCase()) {
+            // // adding class here
+            messageDiv.className = 'alert alert-success text-center';
+
+            // setting the text
+            messageDiv.innerHTML = 'Correct..!';
+        }
+
+    });
+
 
     // setting for the time here
     setInterval(timeRemain, 1100);
@@ -78,14 +92,6 @@ let checkStatus = () => {
 
         // setting the text
         messageDiv.innerHTML = 'Game Over...';
-    }
-    else{
-         // // adding class here
-         messageDiv.className = 'alert alert-info text-center';
-
-         // setting the text
-         messageDiv.innerHTML = 'Playing...';
-
     }
 
 
