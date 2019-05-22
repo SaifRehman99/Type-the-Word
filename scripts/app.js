@@ -73,14 +73,20 @@ selectLevelTime.addEventListener('change', (e) => {
 let checkStatus = () => {
 
     if (!status && time === 0) {
-        // // creating the para here
-        // let para = document.createElement('p');
-
         // // adding class here
-        // para.className = 'alert alert-info text-center';
+        messageDiv.className = 'alert alert-info text-center';
+
+        // setting the text
         messageDiv.innerHTML = 'Game Over...';
     }
-    // messageDiv.appendChild(para)
+    else{
+         // // adding class here
+         messageDiv.className = 'alert alert-info text-center';
+
+         // setting the text
+         messageDiv.innerHTML = 'Playing...';
+
+    }
 
 
 }
